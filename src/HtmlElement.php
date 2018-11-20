@@ -30,7 +30,7 @@ class HtmlElement
      *
      * @return string
      */
-    public static function render(string $tag, $attributes = null, $contents = null) : string
+    public static function render($tag, $attributes = null, $contents = null)
     {
         return (new static($tag, $attributes, $contents))->renderTag();
     }
@@ -49,7 +49,9 @@ class HtmlElement
     protected function parseArguments($arguments)
     {
         $attributes = isset($arguments[2]) ? $arguments[1] : [];
-        $contents = $arguments[2] ?? $arguments[1] ?? '';
+        $contents = isset($arguments[2])
+            ? $arguments[2]
+            : (isset($arguments[1]) ? $arguments[1] : '');
 
         $tags = preg_split('/ \s* > \s* /x', $arguments[0], 2);
 
@@ -65,7 +67,10 @@ class HtmlElement
         $this->contents = is_array($contents) ? implode('', $contents) : $contents;
     }
 
-    protected function parseAbbreviation(string $abbreviation)
+    /**
+     * @param string $abbreviation
+     */
+    protected function parseAbbreviation($abbreviation)
     {
         $parsed = AbbreviationParser::parse($abbreviation);
 
@@ -83,7 +88,10 @@ class HtmlElement
         $this->attributes->setAttributes($attributes);
     }
 
-    protected function renderTag() : string
+    /**
+     * @return string
+     */
+    protected function renderTag()
     {
         return TagRenderer::render($this->element, $this->attributes, $this->contents);
     }

@@ -13,19 +13,33 @@ class TagRenderer
     /** @var string */
     protected $contents;
 
-    public static function render(string $element, Attributes $attributes, string $contents) : string
+    /**
+     * @param string $element
+     * @param Attributes $attributes
+     * @param string $contents
+     * @return string
+     */
+    public static function render($element, Attributes $attributes, $contents)
     {
         return (new static($element, $attributes, $contents))->renderTag();
     }
 
-    protected function __construct(string $element, Attributes $attributes, string $contents)
+    /**
+     * @param string $element
+     * @param Attributes $attributes
+     * @param string $contents
+     */
+    protected function __construct($element, Attributes $attributes, $contents)
     {
         $this->element = $element;
         $this->attributes = $attributes;
         $this->contents = $contents;
     }
 
-    protected function renderTag() : string
+    /**
+     * @return string
+     */
+    protected function renderTag()
     {
         if ($this->isSelfClosingTag()) {
             return $this->renderOpeningTag();
@@ -34,19 +48,28 @@ class TagRenderer
         return "{$this->renderOpeningTag()}{$this->contents}{$this->renderClosingTag()}";
     }
 
-    protected function renderOpeningTag() : string
+    /**
+     * @return string
+     */
+    protected function renderOpeningTag()
     {
         return $this->attributes->isEmpty() ?
             "<{$this->element}>" :
             "<{$this->element} {$this->attributes}>";
     }
 
-    protected function renderClosingTag() : string
+    /**
+     * @return string
+     */
+    protected function renderClosingTag()
     {
         return "</{$this->element}>";
     }
 
-    protected function isSelfClosingTag() : bool
+    /**
+     * @return bool
+     */
+    protected function isSelfClosingTag()
     {
         return in_array(strtolower($this->element), [
             'area', 'base', 'br', 'col', 'embed', 'hr',

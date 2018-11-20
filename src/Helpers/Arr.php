@@ -4,7 +4,11 @@ namespace Spatie\HtmlElement\Helpers;
 
 class Arr
 {
-    public static function flatten(array $array) : array
+    /**
+     * @param array $array
+     * @return array
+     */
+    public static function flatten(array $array)
     {
         $flattened = [];
 
@@ -18,12 +22,22 @@ class Arr
         return $flattened;
     }
 
-    public static function map(array $array, callable $mapper) : array
+    /**
+     * @param array $array
+     * @param callable $mapper
+     * @return array
+     */
+    public static function map(array $array, callable $mapper)
     {
         return array_map($mapper, $array);
     }
 
-    public static function flatMap(array $array, callable $mapper) : array
+    /**
+     * @param array $array
+     * @param callable $mapper
+     * @return array
+     */
+    public static function flatMap(array $array, callable $mapper)
     {
         return static::flatten(static::map($array, $mapper));
     }

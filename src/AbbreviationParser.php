@@ -15,9 +15,13 @@ class AbbreviationParser
     /** @var array */
     protected $attributes = [];
 
-    public static function parse(string $tag) : array
+    /**
+     * @param string $tag
+     * @return array
+     */
+    public static function parse($tag)
     {
-        $parsed = (new static($tag));
+        $parsed = new static($tag);
 
         return [
             'element' => $parsed->element,
@@ -26,12 +30,19 @@ class AbbreviationParser
         ];
     }
 
-    protected function __construct(string $tag)
+    /**
+     * AbbreviationParser constructor.
+     * @param string $tag
+     */
+    protected function __construct($tag)
     {
         $this->parseTag($tag);
     }
 
-    protected function parseTag(string $tag)
+    /**
+     * @param string $tag
+     */
+    protected function parseTag($tag)
     {
         foreach ($this->explodeTag($tag) as $part) {
 
@@ -52,32 +63,48 @@ class AbbreviationParser
         }
     }
 
-    protected function parseClass(string $class)
+    /**
+     * @param string $class
+     */
+    protected function parseClass($class)
     {
         $this->classes[] = ltrim($class, '.');
     }
 
-    protected function parseId(string $id)
+    /**
+     * @param string $id
+     */
+    protected function parseId($id)
     {
         $this->attributes['id'] = ltrim($id, '#');
     }
 
-    protected function parseAttribute(string $attribute)
+    /**
+     * @param string $attribute
+     */
+    protected function parseAttribute($attribute)
     {
         $keyValueSet = explode('=', trim($attribute, '[]'), 2);
 
         $key = $keyValueSet[0];
-        $value = $keyValueSet[1] ?? null;
-        
+        $value = isset($keyValueSet[1]) ? $keyValueSet[1] : null;
+
         $this->attributes[$key] = trim($value, '\'"');
     }
 
-    protected function parseElement(string $element)
+    /**
+     * @param string $element
+     */
+    protected function parseElement($element)
     {
         $this->element = $element;
     }
 
-    protected function explodeTag(string $tag) : array
+    /**
+     * @param string $tag
+     * @return array
+     */
+    protected function explodeTag($tag)
     {
         // First split out the attributes set with `[...=...]`
         $parts = preg_split('/(?=( \[[^]]+] ))/x', $tag);
