@@ -166,4 +166,22 @@ class HtmlElementTest extends TestCase
             HtmlElement::render('div.container > div.row')
         );
     }
+
+    /** @test */
+    function it_expands_implicit_divs()
+    {
+        $this->assertEquals(
+            '<div class="classname"></div>',
+            HtmlElement::render('.classname')
+        );
+    }
+
+    /** @test */
+    function it_supports_nesteed_implicit_divs()
+    {
+        $this->assertEquals(
+            '<div class="container"><div class="row"></div></div>',
+            HtmlElement::render('.container > .row')
+        );
+    }
 }

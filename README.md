@@ -116,6 +116,21 @@ el('div.container > div.row > div.col-md-6', 'Hello world!'));
 </div>
 ```
 
+Limited support of [implicit tag names](https://docs.emmet.io/abbreviations/implicit-names/) (`div`s only):
+
+```php
+el('.container > .row > .col-md-6', 'Hello world!'));
+```
+```html
+<div class="container">
+  <div class="row">
+    <div class="col-md-6">
+      Hello world!
+    </div>
+  </div>
+</div>
+```
+
 Manually nested tags:
 
 ```php

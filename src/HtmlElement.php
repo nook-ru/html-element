@@ -74,7 +74,7 @@ class HtmlElement
     {
         $parsed = AbbreviationParser::parse($abbreviation);
 
-        $this->element = $parsed['element'];
+        $this->element = $parsed['element'] ?: 'div';
 
         $this->attributes->addClass($parsed['classes']);
 
